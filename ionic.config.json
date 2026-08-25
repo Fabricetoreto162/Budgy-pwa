@@ -1,0 +1,7 @@
+{
+  "name": "budgy",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
