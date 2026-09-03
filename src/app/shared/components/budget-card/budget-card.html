@@ -20,8 +20,12 @@
 
   <div class="info">
     <div class="row-top">
-      <span class="name">{{ budget.name }}</span>
-      <span class="amount">{{ formatFCFA(budget.spent) }} / {{ formatFCFA(budget.amount) }}</span>
+      <span class="name" [title]="budget.name">{{ budget.name }}</span>
+      <span class="amount">
+        <span class="spent">{{ formatFCFA(budget.spent) }}</span>
+        <span class="sep">/</span>
+        <span class="limit">{{ formatFCFA(budget.amount) }}</span>
+      </span>
     </div>
     <app-progress-bar [percent]="percent" [color]="budget.color" [showLabel]="true"></app-progress-bar>
   </div>

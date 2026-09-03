@@ -446,3 +446,27 @@ body.dark,
   }
 }
 
+/* ==========================================================================
+   PROTECTION DE LA MARQUE "BUDGY" CONTRE LA TRADUCTION AUTOMATIQUE (CHROME / PERRUCHE)
+   Chrome Mobile traduit le mot "Budgy" ("budgie") en "Perruche" quand le traducteur
+   automatique est actif. En générant le nom via ::before { content: "Budgy"; },
+   le texte provient du rendu CSS et n'existe pas dans l'arbre texte DOM,
+   ce qui empêche PHYSIQUEMENT Google Chrome / Translate de le transformer en Perruche.
+   ========================================================================== */
+.brand-name,
+.logo-text,
+.budgy-text,
+.budgy-brand {
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: baseline;
+
+  &::before {
+    content: "Budgy";
+    font-family: inherit;
+    font-weight: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+  }
+}
+

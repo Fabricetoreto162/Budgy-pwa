@@ -5,9 +5,10 @@
 }
 
 .budget-detail-page {
-  padding: 16px 16px 100px;
+  padding: 16px 16px calc(220px + env(safe-area-inset-bottom, 0px));
   max-width: 640px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .back-btn {
@@ -131,59 +132,85 @@
 }
 
 /* =========================
-   DELETE BUTTON
+   ACTIONS FLOTTANTES (Ajouter dépense + Supprimer budget)
 ========================= */
 
-.delete-btn {
-  width: 100%;
-  margin-top: 24px;
-  padding: 13px;
-  border-radius: 14px;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  background: transparent;
-  color: #EF4444;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-/* =========================
-   ADD EXPENSE (FAB flottant en bas)
-========================= */
-
-.add-expense-fab {
+.budget-floating-actions {
   position: fixed;
   left: 16px;
   right: 16px;
-  bottom: 90px;
-  z-index: 50;
+  bottom: calc(76px + 14px + env(safe-area-inset-bottom, 0px));
+  z-index: 60;
   max-width: 640px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
 }
 
-.fab-toggle {
+.fab-btn,
+.fab-form {
+  pointer-events: auto;
+}
+
+/* Base commune pour que les deux boutons soient exactement identiques en géométrie */
+.fab-btn {
   width: 100%;
-  padding: 15px;
+  padding: 14px 20px;
   border-radius: 999px;
   border: none;
-  background: #f5a623;
-  color: #ffffff;
   font-size: 14px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+
+  ion-icon {
+    font-size: 19px;
+    flex-shrink: 0;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Bouton 1 : Ajouter une dépense (Orange Budgy) */
+.btn-add-expense {
+  background: #f5a623;
+  color: #ffffff;
   box-shadow: 0 10px 25px rgba(245, 166, 35, 0.35);
 
-  ion-icon { font-size: 18px; }
+  &:hover {
+    filter: brightness(1.05);
+    box-shadow: 0 12px 28px rgba(245, 166, 35, 0.42);
+  }
+}
+
+/* Bouton 2 : Supprimer le budget (Rouge sécurité, format & ombre identiques) */
+.btn-delete-budget {
+  background: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.32);
+
+  &:hover {
+    filter: brightness(1.06);
+    box-shadow: 0 12px 28px rgba(239, 68, 68, 0.38);
+  }
 }
 
 .fab-form {
-  margin-top: 10px;
+  margin-bottom: 2px;
   padding: 16px;
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(30, 41, 59, 0.12);
+  background: var(--app-surface, #ffffff);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(30, 41, 59, 0.14);
+  border: 1px solid var(--app-border-soft, rgba(226, 232, 240, 0.7));
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -196,12 +223,12 @@
 }
 
 /* =========================
-   DESKTOP
+   DESKTOP & TABLETTE
 ========================= */
 
-@media (min-width: 992px) {
+@media (min-width: 900px) {
   .budget-detail-page {
-    padding: 32px 40px 60px;
+    padding: 32px 40px 160px;
     max-width: 760px;
   }
 
@@ -213,10 +240,10 @@
     }
   }
 
-  .add-expense-fab {
+  .budget-floating-actions {
     left: auto;
     right: 40px;
-    bottom: 40px;
+    bottom: 36px;
     width: 340px;
     margin: 0;
   }

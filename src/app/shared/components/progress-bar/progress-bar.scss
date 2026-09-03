@@ -1,11 +1,21 @@
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
 .progress-row {
   display: flex;
   align-items: center;
   gap: 8px;
+  width: 100%;
+  min-width: 0;
 }
 
 .track {
   flex: 1;
+  min-width: 0;
   height: 6px;
   border-radius: 999px;
   background: #eef1f5;
@@ -23,4 +33,5 @@
   font-weight: 700;
   color: #8a94a6;
   white-space: nowrap;
+  flex-shrink: 0;
 }

@@ -2,10 +2,10 @@
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { IonIcon, IonInput, IonButton } from '@ionic/angular';
+import { IonIcon, IonInput, IonButton, AlertController } from '@ionic/angular';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { addIcons } from 'ionicons';
-import { chevronBackOutline, addOutline, closeOutline } from 'ionicons/icons';
+import { chevronBackOutline, addOutline, closeOutline, trashOutline } from 'ionicons/icons';
 import { Budget } from '../../core/models/budget.model';
 import { Transaction } from '../../core/models/transaction.model';
 import { BudgetsService } from '../../core/services/budgets';
@@ -48,9 +48,10 @@ export class BudgetDetailPage implements OnInit {
     private router: Router,
     private budgetsSvc: BudgetsService,
     private txSvc: TransactionsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private alertCtrl: AlertController
   ) {
-    addIcons({ chevronBackOutline, addOutline, closeOutline });
+    addIcons({ chevronBackOutline, addOutline, closeOutline, trashOutline });
   }
 
   async ngOnInit() {
@@ -101,7 +102,22 @@ export class BudgetDetailPage implements OnInit {
   }
 
   async removeBudget() {
-    await this.budgetsSvc.remove(this.budget.id);
-    this.router.navigateByUrl('/tabs/budgets');
+    if (!this.budget) return;
+    const alert = await this.alertCtrl.create({
+      header: 'Supprimer ce budget ?',
+      message: `Voulez-vous vraiment supprimer le budget "${this.budget.name}" ?`,
+      buttons: [
+        { text: 'Annuler', role: 'cancel' },
+        {
+          text: 'Supprimer',
+          role: 'destructive',
+          handler: async () => {
+            await this.budgetsSvc.remove(this.budget.id);
+            this.router.navigateByUrl('/tabs/budgets');
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

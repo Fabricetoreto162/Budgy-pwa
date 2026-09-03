@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { IonIcon } from '@ionic/angular';
 import {
@@ -14,7 +14,10 @@ import {
   chevronDownOutline,
   logOutOutline,
   closeOutline,
-  downloadOutline
+  downloadOutline,
+  phonePortraitOutline,
+  shareOutline,
+  sparklesOutline
 } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 
@@ -24,6 +27,7 @@ import { BudgetsService } from '../../core/services/budgets';
 import { TransactionsService } from '../../core/services/transactions';
 import { StatsService, DashboardStats } from '../../core/services/stats';
 import { AuthService } from '../../core/services/auth';
+import { PwaService } from '../../core/services/pwa';
 import { BudgetCardComponent } from '../../shared/components/budget-card/budget-card';
 import { KpiCardComponent } from '../../shared/components/kpi-card/kpi-card';
 import { StatLineChartComponent } from '../../shared/components/stat-line-chart/stat-line-chart';
@@ -32,8 +36,6 @@ import { ProgressBarComponent } from '../../shared/components/progress-bar/progr
 import { PageLoaderComponent } from '../../shared/components/page-loader/page-loader';
 import { formatFCFA, percentSpent } from '../../core/utils/currency.utils';
 import { formatShortDate } from '../../core/utils/date.utils';
-
-const PWA_DISMISSED_KEY = 'budgy_pwa_install_dismissed';
 
 @Component({
   selector: 'app-dashboard',
@@ -52,21 +54,26 @@ const PWA_DISMISSED_KEY = 'budgy_pwa_install_dismissed';
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss']
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage implements OnInit, OnDestroy {
   budgets: Budget[] = [];
   recentTransactions: any[] = [];
   stats: DashboardStats | null = null;
   totalBalance = 0;
   loading = true;
 
+  // PWA Install Popup states (20s on each dashboard visit)
   showInstallCard = false;
-  private deferredPrompt: any = null;
+  showInstallGuideModal = false;
+  pwaCountdown = 20;
+  private pwaTimer: any = null;
+  private pwaCountdownInterval: any = null;
 
   constructor(
     private budgetsSvc: BudgetsService,
     private txSvc: TransactionsService,
     private statsSvc: StatsService,
     public auth: AuthService,
+    public pwaSvc: PwaService,
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {
@@ -82,16 +89,94 @@ export class DashboardPage implements OnInit {
       chevronDownOutline,
       logOutOutline,
       closeOutline,
-      downloadOutline
+      downloadOutline,
+      phonePortraitOutline,
+      shareOutline,
+      sparklesOutline
     });
   }
 
   async ngOnInit() {
     await this.loadDashboardData();
+    this.triggerPwaPopup();
   }
 
   async ionViewWillEnter() {
     await this.loadDashboardData();
+    this.triggerPwaPopup();
+  }
+
+  ionViewWillLeave() {
+    this.clearPwaTimers();
+  }
+
+  ngOnDestroy() {
+    this.clearPwaTimers();
+  }
+
+  /** Déclenche le popup PWA pendant 20 secondes à chaque visite */
+  triggerPwaPopup() {
+    this.clearPwaTimers();
+
+    // Si déjà installé en mode standalone PWA natif, pas besoin d'afficher l'invite d'installation
+    if (this.pwaSvc.isInstalled()) {
+      this.showInstallCard = false;
+      return;
+    }
+
+    this.pwaCountdown = 20;
+    this.showInstallCard = true;
+    this.cdr.detectChanges();
+
+    // Décompte visuel seconde par seconde
+    this.pwaCountdownInterval = setInterval(() => {
+      if (this.pwaCountdown > 1) {
+        this.pwaCountdown--;
+        this.cdr.detectChanges();
+      } else {
+        this.pwaCountdown = 0;
+      }
+    }, 1000);
+
+    // Disparition automatique après exactement 20 secondes
+    this.pwaTimer = setTimeout(() => {
+      this.dismissInstallCard();
+    }, 20000);
+  }
+
+  private clearPwaTimers() {
+    if (this.pwaTimer) {
+      clearTimeout(this.pwaTimer);
+      this.pwaTimer = null;
+    }
+    if (this.pwaCountdownInterval) {
+      clearInterval(this.pwaCountdownInterval);
+      this.pwaCountdownInterval = null;
+    }
+  }
+
+  async installPwa() {
+    const result = await this.pwaSvc.promptInstall();
+
+    if (result.outcome === 'accepted') {
+      this.dismissInstallCard();
+    } else if (result.outcome === 'manual') {
+      // Pas de prompt automatique supporté (ex: iOS Safari ou navigateur bureau sans prompt direct)
+      this.showInstallGuideModal = true;
+      this.clearPwaTimers();
+      this.cdr.detectChanges();
+    }
+  }
+
+  dismissInstallCard() {
+    this.clearPwaTimers();
+    this.showInstallCard = false;
+    this.cdr.detectChanges();
+  }
+
+  closeInstallGuide() {
+    this.showInstallGuideModal = false;
+    this.cdr.detectChanges();
   }
 
   async loadDashboardData() {
@@ -121,51 +206,6 @@ export class DashboardPage implements OnInit {
       this.loading = false;
       this.cdr.detectChanges();
     }
-  }
-
-
-  /** Capture l'événement natif du navigateur pour proposer l'installation PWA */
-  @HostListener('window:beforeinstallprompt', ['$event'])
-  onBeforeInstallPrompt(event: Event) {
-    event.preventDefault();
-    this.deferredPrompt = event;
-
-    const alreadyDismissed = localStorage.getItem(PWA_DISMISSED_KEY);
-    if (!alreadyDismissed) {
-      this.showInstallCard = true;
-      this.cdr.detectChanges();
-    }
-  }
-
-  /** Se déclenche quand l'app vient d'être installée */
-  @HostListener('window:appinstalled')
-  onAppInstalled() {
-    this.showInstallCard = false;
-    this.deferredPrompt = null;
-    this.cdr.detectChanges();
-  }
-
-  async installPwa() {
-    if (!this.deferredPrompt) return;
-
-    this.deferredPrompt.prompt();
-    const { outcome } = await this.deferredPrompt.userChoice;
-
-    if (outcome === 'accepted') {
-      this.showInstallCard = false;
-    } else {
-      // L'utilisateur a refusé dans la popup native — on ne réaffiche pas immédiatement
-      localStorage.setItem(PWA_DISMISSED_KEY, 'true');
-      this.showInstallCard = false;
-    }
-
-    this.deferredPrompt = null;
-    this.cdr.detectChanges();
-  }
-
-  dismissInstallCard() {
-    localStorage.setItem(PWA_DISMISSED_KEY, 'true');
-    this.showInstallCard = false;
   }
 
   async logout() {

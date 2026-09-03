@@ -47,22 +47,40 @@
       <p class="placeholder">Statistiques de ce budget bientôt disponibles.</p>
     </div>
 
-    <button class="delete-btn" (click)="removeBudget()">supprimer le budget</button>
-
   </div>
 
-  <div class="add-expense-fab" *ngIf="activeTab === 'transactions'">
-    <button class="fab-toggle" (click)="showForm = !showForm">
-      <ion-icon [name]="showForm ? 'close-outline' : 'add-outline'"></ion-icon>
-      {{ showForm ? 'Annuler' : 'Ajouter une dépense' }}
-    </button>
+  <!-- ACTIONS FLOTTANTES (Bouton Ajouter une dépense en haut + Bouton Supprimer le budget en bas) -->
+  <div class="budget-floating-actions" *ngIf="!loading && budget">
 
-    <div class="fab-form" *ngIf="showForm">
+    <!-- Formulaire d'ajout qui s'ouvre au-dessus des boutons -->
+    <div class="fab-form" *ngIf="showForm && activeTab === 'transactions'">
       <ion-input placeholder="Description" [(ngModel)]="newDescription"></ion-input>
       <ion-input type="number" placeholder="Montant" [(ngModel)]="newAmount"></ion-input>
       <ion-button expand="block" color="primary" (click)="addExpense()">
         {{ 'budget_detail.add_expense' | translate }}
       </ion-button>
     </div>
+
+    <!-- Bouton 1 (poussé en haut) : Ajouter une dépense -->
+    <button
+      id="btn-add-expense"
+      class="fab-btn btn-add-expense"
+      *ngIf="activeTab === 'transactions'"
+      (click)="showForm = !showForm"
+      type="button">
+      <ion-icon [name]="showForm ? 'close-outline' : 'add-outline'"></ion-icon>
+      <span>{{ showForm ? 'Annuler' : 'Ajouter une dépense' }}</span>
+    </button>
+
+    <!-- Bouton 2 (en bas) : Supprimer le budget -->
+    <button
+      id="btn-delete-budget"
+      class="fab-btn btn-delete-budget"
+      (click)="removeBudget()"
+      type="button">
+      <ion-icon name="trash-outline"></ion-icon>
+      <span>Supprimer le budget</span>
+    </button>
+
   </div>
 </div>

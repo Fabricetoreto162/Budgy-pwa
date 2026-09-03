@@ -21,7 +21,7 @@
       <header class="top-header">
         <div class="brand">
           <span class="brand-logo">B</span>
-          <span class="brand-name">Budgy</span>
+          <span class="brand-name notranslate" translate="no" aria-label="Budgy"></span>
         </div>
 
         <div class="top-header-actions">
@@ -202,19 +202,85 @@
   </div>
 
   <!-- =========================
-       PWA INSTALL CARD
+       PWA INSTALL POPUP (20 secondes à chaque visite)
   ========================== -->
-  <div class="pwa-install-card" *ngIf="showInstallCard">
-    <div class="pwa-icon">
-      <ion-icon name="download-outline"></ion-icon>
+  <div class="pwa-install-card" *ngIf="showInstallCard" role="dialog" aria-label="Installer Budgy">
+    <!-- Barre de progression pour les 20 secondes -->
+    <div class="pwa-timer-progress"></div>
+
+    <div class="pwa-icon" (click)="installPwa()" role="button" tabindex="0" title="Installer Budgy">
+      <img src="icons/manifest-icon-192.maskable.png" alt="Budgy" class="pwa-app-icon" referrerpolicy="no-referrer" />
+      <span class="pwa-pulse-dot"></span>
     </div>
-    <div class="pwa-content">
-      <strong>Installer Budgy</strong>
-      <p>Accédez à l'app directement depuis votre écran d'accueil</p>
+
+    <div class="pwa-content" (click)="installPwa()">
+      <div class="pwa-header-line">
+        <strong>Installer l'application</strong>
+        <span class="pwa-badge">PWA</span>
+        <span class="pwa-countdown">{{ pwaCountdown }}s</span>
+      </div>
+      <p>Installez <span class="budgy-text notranslate" translate="no" aria-label="Budgy"></span> sur votre écran pour un accès rapide & hors-ligne</p>
     </div>
-    <button class="pwa-install-btn" (click)="installPwa()">Installer</button>
-    <button class="pwa-close-btn" (click)="dismissInstallCard()">
-      <ion-icon name="close-outline"></ion-icon>
-    </button>
+
+    <div class="pwa-btn-group">
+      <button class="pwa-install-btn" type="button" (click)="installPwa()">
+        <ion-icon name="download-outline"></ion-icon>
+        <span>Installer</span>
+      </button>
+
+      <button class="pwa-close-btn" type="button" (click)="dismissInstallCard()" title="Fermer">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal d'instructions d'installation (iOS Safari ou guide manuel) -->
+  <div class="pwa-guide-backdrop" *ngIf="showInstallGuideModal" (click)="closeInstallGuide()">
+    <div class="pwa-guide-sheet" (click)="$event.stopPropagation()">
+      <div class="sheet-top">
+        <div class="sheet-icon-wrapper">
+          <img src="icons/manifest-icon-192.maskable.png" alt="Budgy" class="pwa-app-icon" referrerpolicy="no-referrer" />
+        </div>
+        <div class="sheet-titles">
+          <h3>Installer <span class="budgy-text notranslate" translate="no" aria-label="Budgy"></span></h3>
+          <p>Profitez de l'application sur votre écran d'accueil</p>
+        </div>
+        <button class="sheet-close-btn" type="button" (click)="closeInstallGuide()">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="sheet-steps" *ngIf="pwaSvc.isIOSDevice()">
+        <div class="sheet-step">
+          <span class="step-badge">1</span>
+          <p>Dans Safari, touchez le bouton <strong>Partager</strong> <ion-icon name="share-outline" class="inline-icon"></ion-icon> en bas de l'écran.</p>
+        </div>
+        <div class="sheet-step">
+          <span class="step-badge">2</span>
+          <p>Faites défiler le menu et sélectionnez <strong>Sur l'écran d'accueil</strong>.</p>
+        </div>
+        <div class="sheet-step">
+          <span class="step-badge">3</span>
+          <p>Appuyez sur <strong>Ajouter</strong> en haut à droite.</p>
+        </div>
+      </div>
+
+      <div class="sheet-steps" *ngIf="!pwaSvc.isIOSDevice()">
+        <div class="sheet-step">
+          <span class="step-badge">1</span>
+          <p>Cliquez sur l'icône <strong>Installer</strong> dans la barre d'adresse ou le menu du navigateur (<strong>⋮</strong>).</p>
+        </div>
+        <div class="sheet-step">
+          <span class="step-badge">2</span>
+          <p>Sélectionnez <strong>"Installer <span class="budgy-text notranslate" translate="no" aria-label="Budgy"></span>"</strong> ou <strong>"Ajouter à l'écran d'accueil"</strong> pour terminer.</p>
+        </div>
+      </div>
+
+      <div class="sheet-footer">
+        <button class="sheet-confirm-btn" type="button" (click)="closeInstallGuide()">
+          D'accord, compris !
+        </button>
+      </div>
+    </div>
   </div>
 </div>
