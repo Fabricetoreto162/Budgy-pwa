@@ -1,9 +1,15 @@
-<ion-content [fullscreen]="true" *ngIf="budget">
-  <div class="budget-detail-page">
+<div class="app-page-scroll">
+
+  <!-- FULL PAGE LOADING -->
+  <app-page-loader *ngIf="loading" message="Chargement du budget..."></app-page-loader>
+
+  <!-- BUDGET DETAIL READY -->
+  <div class="budget-detail-page dashboard-ready" *ngIf="!loading && budget">
 
     <button class="back-btn" (click)="goBack()">
       <ion-icon name="chevron-back-outline"></ion-icon>
     </button>
+
 
     <div class="hero" [style.background]="budget.color + '18'">
       <div class="icon-circle" [style.background]="budget.color + '30'">
@@ -59,5 +65,4 @@
       </ion-button>
     </div>
   </div>
-
-</ion-content>
+</div>

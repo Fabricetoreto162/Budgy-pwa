@@ -1,17 +1,18 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonIcon } from '@ionic/angular';
+import { IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { chevronDownOutline, filterOutline, checkmarkOutline } from 'ionicons/icons';
 import { Transaction } from '../../core/models/transaction.model';
 import { TransactionsService } from '../../core/services/transactions';
 import { TransactionItemComponent } from '../../shared/components/transaction-item/transaction-item';
+import { PageLoaderComponent } from '../../shared/components/page-loader/page-loader';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon, TransactionItemComponent, TranslatePipe],
+  imports: [CommonModule, IonIcon, TransactionItemComponent, PageLoaderComponent, TranslatePipe],
   templateUrl: './transactions.page.html',
   styleUrls: ['./transactions.page.scss']
 })
@@ -39,12 +40,24 @@ export class TransactionsPage implements OnInit {
     await this.loadTransactions();
   }
 
+  async ionViewWillEnter() {
+    await this.loadTransactions();
+  }
+
   async loadTransactions() {
     this.loading = true;
-    this.transactions = await this.txSvc.getRecent(this.selectedPeriod.days);
-    this.loading = false;
     this.cdr.detectChanges();
+    try {
+      this.transactions = (await this.txSvc.getRecent(this.selectedPeriod.days)) ?? [];
+    } catch (err) {
+      console.error('Erreur chargement transactions:', err);
+      this.transactions = [];
+    } finally {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
   }
+
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;

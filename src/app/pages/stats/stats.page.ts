@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular';
+import { IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, arrowForwardOutline } from 'ionicons/icons';
 
@@ -10,6 +10,7 @@ import { TransactionsService } from '../../core/services/transactions';
 import { KpiCardComponent } from '../../shared/components/kpi-card/kpi-card';
 import { ProgressBarComponent } from '../../shared/components/progress-bar/progress-bar';
 import { TransactionItemComponent } from '../../shared/components/transaction-item/transaction-item';
+import { PageLoaderComponent } from '../../shared/components/page-loader/page-loader';
 import { formatFCFA } from '../../core/utils/currency.utils';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -19,11 +20,11 @@ import { TranslatePipe } from '@ngx-translate/core';
   imports: [
     CommonModule,
     RouterLink,
-    IonContent,
     IonIcon,
     KpiCardComponent,
     ProgressBarComponent,
     TransactionItemComponent,
+    PageLoaderComponent,
     TranslatePipe
   ],
   templateUrl: './stats.page.html',
@@ -44,19 +45,34 @@ export class StatsPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.loading = true;
-    const [stats, transactions] = await Promise.all([
-      this.statsSvc.getDashboardStats(),
-      this.txSvc.getRecent(30)
-    ]);
+    await this.loadStats();
+  }
 
-    this.stats = stats;
-    this.recentTransactions = transactions.slice(0, 3);
-    this.loading = false;
+  async ionViewWillEnter() {
+    await this.loadStats();
+  }
+
+  async loadStats() {
+    this.loading = true;
     this.cdr.detectChanges();
+    try {
+      const [stats, transactions] = await Promise.all([
+        this.statsSvc.getDashboardStats(),
+        this.txSvc.getRecent(30)
+      ]);
+
+      this.stats = stats;
+      this.recentTransactions = (transactions ?? []).slice(0, 3);
+    } catch (err) {
+      console.error('Erreur chargement stats:', err);
+    } finally {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
   }
 
   goBack() {
+
     this.router.navigateByUrl('/tabs/dashboard');
   }
 

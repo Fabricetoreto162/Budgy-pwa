@@ -1,9 +1,15 @@
-<ion-content class="ion-padding">
-  <div class="transactions-page">
+<div class="app-page-scroll">
+
+  <!-- FULL PAGE LOADING -->
+  <app-page-loader *ngIf="loading" message="Chargement de vos transactions..."></app-page-loader>
+
+  <!-- TRANSACTIONS READY -->
+  <div class="transactions-page ion-padding dashboard-ready" *ngIf="!loading">
 
     <div class="header">
       <h2>{{ 'transactions.title' | translate }}</h2>
     </div>
+
 
     <div class="filter-bar">
       <div class="filter-pill-wrap">
@@ -46,4 +52,4 @@
     </div>
 
   </div>
-</ion-content>
+</div>

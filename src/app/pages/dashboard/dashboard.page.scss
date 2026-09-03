@@ -1,9 +1,11 @@
 :host {
   display: block;
+  width: 100%;
+  height: 100%;
 }
 
-ion-content {
-  --background: #f8f9fb;
+.app-page-scroll {
+  background: var(--app-bg-shell, #f8f9fb);
 }
 
 .dashboard {

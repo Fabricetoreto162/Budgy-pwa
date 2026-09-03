@@ -1,7 +1,13 @@
-<ion-content class="ion-padding" *ngIf="profile">
-  <div class="profile-page">
+<div class="app-page-scroll">
+
+  <!-- FULL PAGE LOADING -->
+  <app-page-loader *ngIf="loading" message="Chargement de votre profil..."></app-page-loader>
+
+  <!-- PROFILE READY -->
+  <div class="profile-page ion-padding dashboard-ready" *ngIf="!loading && profile">
 
     <h2>{{ 'profile.title' | translate }}</h2>
+
 
     <div class="avatar-block">
       <div class="avatar-wrap">
@@ -24,12 +30,6 @@
 
     <div class="settings-group">
       <div class="row">
-        <ion-icon name="notifications-outline"></ion-icon>
-        <span>{{ 'profile.notifications' | translate }}</span>
-        <ion-toggle [checked]="notificationsEnabled" (ionChange)="toggleNotifications()"></ion-toggle>
-      </div>
-
-      <div class="row">
         <ion-icon name="cash-outline"></ion-icon>
         <span>{{ 'profile.currency' | translate }}</span>
         <span class="value">{{ profile.currency }}</span>
@@ -39,21 +39,7 @@
       <div class="row">
         <ion-icon name="moon-outline"></ion-icon>
         <span>{{ 'profile.dark_mode' | translate }}</span>
-        <ion-toggle [checked]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
-      </div>
-    </div>
-
-    <div class="settings-group">
-      <div class="row">
-        <ion-icon name="help-circle-outline"></ion-icon>
-        <span>{{ 'profile.help_support' | translate }}</span>
-        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
-      </div>
-
-      <div class="row">
-        <ion-icon name="information-circle-outline"></ion-icon>
-        <span>{{ 'profile.about' | translate }}</span>
-        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+        <ion-toggle [checked]="darkMode" (ionChange)="onDarkModeChange($event)"></ion-toggle>
       </div>
     </div>
 
@@ -61,6 +47,5 @@
       <ion-icon name="log-out-outline"></ion-icon>
       {{ 'profile.logout' | translate }}
     </button>
-
   </div>
-</ion-content>
+</div>

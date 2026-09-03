@@ -3,13 +3,13 @@
   align-items: center;
   gap: 12px;
 
-  background: #ffffff;
+  background: var(--app-surface, #ffffff);
   border-radius: 18px;
   padding: 14px 16px;
   margin-bottom: 10px;
 
-  box-shadow: 0 6px 18px rgba(30, 41, 59, 0.04);
-  border: 1px solid rgba(226, 232, 240, 0.5);
+  box-shadow: var(--app-surface-shadow, 0 6px 18px rgba(30, 41, 59, 0.04));
+  border: 1px solid var(--app-border-soft, rgba(226, 232, 240, 0.5));
 
   .icon-circle {
     width: 42px;
@@ -33,7 +33,7 @@
     .description {
       font-weight: 700;
       font-size: 14px;
-      color: #182230;
+      color: var(--app-text, #182230);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -41,13 +41,13 @@
 
     .meta {
       font-size: 11px;
-      color: #8a94a6;
+      color: var(--app-text-secondary, #8a94a6);
       font-weight: 500;
     }
   }
 
   .amount {
-    color: #EF4444;
+    color: #ef4444;
     font-weight: 700;
     font-size: 14px;
     white-space: nowrap;

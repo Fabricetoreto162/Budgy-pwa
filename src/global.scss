@@ -61,3 +61,388 @@
       font-weight: 700;
     }
   }
+
+/* ==========================================================================
+   Simple scroll vertical standard sur toutes les pages de l'application
+   (Remplace la feuille de style construite .scroll-y { overflow-y: var(--overflow); })
+   ========================================================================== */
+
+.app-page-scroll {
+  display: block;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: auto;
+  box-sizing: border-box;
+}
+
+/* Personnalisation élégante de la barre de défilement */
+.app-page-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.app-page-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.app-page-scroll::-webkit-scrollbar-thumb {
+  background: rgba(15, 27, 51, 0.15);
+  border-radius: 999px;
+}
+
+.app-page-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 27, 51, 0.28);
+}
+
+html.ion-palette-dark .app-page-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Fallback & neutralisation de toute feuille de style construite liée à ion-content */
+ion-content {
+  --overflow: auto !important;
+  overflow-y: auto !important;
+
+  &::part(scroll) {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: auto;
+  }
+}
+
+.dashboard-ready {
+  animation: dashboardAppear 0.45s ease both;
+}
+
+@keyframes dashboardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   MODE SOMBRE GLOBAL (Budgy Dark Theme)
+   ========================================================================== */
+
+.ion-palette-dark,
+html.ion-palette-dark,
+body.ion-palette-dark,
+html.dark,
+body.dark,
+[data-theme="dark"] {
+  --ion-color-primary: #f5a623;
+  --ion-color-primary-rgb: 245, 166, 35;
+  --ion-color-primary-shade: #d8921f;
+  --ion-color-primary-tint: #f6af39;
+  --ion-background-color: #0f1117;
+  --ion-background-color-rgb: 15, 17, 23;
+  --ion-text-color: #f2f3f5;
+  --ion-text-color-rgb: 242, 243, 245;
+
+  background-color: #0f1117 !important;
+  color: #f2f3f5;
+
+  /* App Shell & Scroll Containers */
+  ion-app,
+  ion-content,
+  .tabs-shell,
+  .tabs-content,
+  .app-page-scroll,
+  .dashboard,
+  .profile-page,
+  .budgets-page,
+  .transactions-page,
+  .stats-page,
+  .budget-detail-page {
+    background-color: #0f1117 !important;
+    color: #f2f3f5;
+  }
+
+  /* Headings & Text */
+  h1, h2, h3,
+  .header h2,
+  .brand-name,
+  .desktop-title,
+  .section-header h3,
+  .card-title,
+  .cat-name,
+  .cat-amount,
+  .value {
+    color: #f2f3f5 !important;
+  }
+
+  .text-secondary,
+  .sub-label,
+  .meta,
+  .email,
+  .desktop-subtitle,
+  .budgets-empty p,
+  .empty-state,
+  .stat-card-title,
+  .tip-card p {
+    color: #a7acb8 !important;
+  }
+
+  /* Navigation */
+  .bottom-nav {
+    background: rgba(23, 26, 35, 0.96) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5) !important;
+
+    a {
+      color: #8a94a6;
+      span { color: #8a94a6; }
+      &.active {
+        color: #f5a623 !important;
+        span { color: #f5a623 !important; }
+      }
+    }
+  }
+
+  .sidebar-nav,
+  .sidebar-wrapper {
+    background: #11141d !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+
+    .nav-link {
+      color: #8a94a6;
+      &:hover {
+        background: rgba(255, 255, 255, 0.05) !important;
+        color: #f2f3f5 !important;
+      }
+      &.active {
+        background: rgba(245, 166, 35, 0.15) !important;
+        color: #f5a623 !important;
+      }
+    }
+  }
+
+  .desktop-topbar {
+    background: #171a23 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* Cards (Surfaces) */
+  .settings-group,
+  .budget-card,
+  .budget-card.grid,
+  .budget-card.list,
+  .transaction-item,
+  .kpi-card:not(.dark),
+  .chart-card,
+  .category-breakdown-card,
+  .recent-tx-card,
+  .stats-summary,
+  .add-tx-card,
+  .dashboard-card,
+  .desktop-stat-card,
+  .desktop-content-card,
+  .desktop-card,
+  .transactions-card,
+  .stat-card,
+  .budgets-empty {
+    background: #171a23 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35) !important;
+    color: #f2f3f5;
+  }
+
+  /* Profile Specific */
+  .profile-page {
+    .settings-group {
+      background: #171a23 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35) !important;
+
+      .row {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        span {
+          color: #f2f3f5 !important;
+        }
+        ion-icon:first-child {
+          color: #a7acb8 !important;
+        }
+        .chevron {
+          color: #565b68 !important;
+        }
+        .value {
+          color: #f5a623 !important;
+        }
+      }
+    }
+
+    .avatar-block {
+      strong { color: #f2f3f5 !important; }
+      .email { color: #8a94a6 !important; }
+    }
+
+    .edit-badge {
+      border-color: #0f1117 !important;
+    }
+
+    .logout-card {
+      background: #171a23 !important;
+      border: 1px solid rgba(239, 68, 68, 0.35) !important;
+      color: #ef4444 !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    }
+  }
+
+  /* Buttons & Filters */
+  .back-btn,
+  .filter-icon-btn,
+  .notification-btn,
+  .desktop-action-btn,
+  .action-circle-btn {
+    background: #171a23 !important;
+    color: #f2f3f5 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .filter-pill {
+    background: #171a23 !important;
+    color: #f2f3f5 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+
+    ion-icon {
+      color: #8a94a6 !important;
+    }
+  }
+
+  .period-dropdown {
+    background: #171a23 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6) !important;
+
+    .period-option {
+      color: #a7acb8 !important;
+      border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+      &:hover {
+        background: #202430 !important;
+        color: #f2f3f5 !important;
+      }
+      &.active {
+        background: rgba(245, 166, 35, 0.15) !important;
+        color: #f5a623 !important;
+      }
+    }
+  }
+
+  /* Budget Card details */
+  .budget-card {
+    .name, .title { color: #f2f3f5 !important; }
+    .amount, .spent-info { color: #a7acb8 !important; }
+    .stat-val { color: #f2f3f5 !important; }
+  }
+
+  /* Transaction Items */
+  .transaction-item {
+    .description { color: #f2f3f5 !important; }
+    .meta { color: #8a94a6 !important; }
+  }
+
+  /* Budget Detail Form & Tabs */
+  .budget-detail-page {
+    .tabs-switch {
+      background: #202430 !important;
+      button {
+        color: #8a94a6 !important;
+        &.active {
+          background: #171a23 !important;
+          color: #f2f3f5 !important;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+        }
+      }
+    }
+
+    .stat-box {
+      .val { color: #f2f3f5 !important; }
+      .lbl { color: #8a94a6 !important; }
+    }
+
+    .form-input {
+      background: #202430 !important;
+      color: #f2f3f5 !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+
+  /* Modals */
+  .budget-modal {
+    background: #171a23 !important;
+    color: #f2f3f5 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7) !important;
+
+    h3 { color: #f2f3f5 !important; }
+    label { color: #a7acb8 !important; }
+
+    .modal-input {
+      background: #202430 !important;
+      color: #f2f3f5 !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .category-chip {
+      background: #202430 !important;
+      color: #a7acb8 !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .close-btn {
+      background: #202430 !important;
+      color: #a7acb8 !important;
+    }
+  }
+
+  /* Dashboard Tips & Extras */
+  .tip-card {
+    background: #171a23 !important;
+    border-color: rgba(245, 166, 35, 0.3) !important;
+    h4 { color: #f2f3f5 !important; }
+    p { color: #a7acb8 !important; }
+    .tip-icon { background: rgba(245, 166, 35, 0.18) !important; }
+  }
+
+  /* Page Loader in Dark Mode */
+  .dashboard-loader {
+    background: radial-gradient(circle at top right, rgba(245, 166, 35, 0.08), transparent 30%), #0f1117 !important;
+    .loader-brand-text span { color: #f2f3f5 !important; }
+    .loading-balance-card {
+      background: linear-gradient(135deg, #0a1f38 0%, #0e2747 55%, #14355c 100%) !important;
+    }
+    .loading-budget-card {
+      background: #171a23 !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    .skeleton-line,
+    .skeleton-icon,
+    .skeleton-progress {
+      background: rgba(255, 255, 255, 0.08) !important;
+    }
+    .loader-status p {
+      color: #a7acb8 !important;
+    }
+  }
+
+  /* Native Ionic Toggle in Dark Mode */
+  ion-toggle {
+    --track-background-checked: #f5a623;
+    --handle-background-checked: #ffffff;
+    --track-background: #2d3342;
+    --handle-background: #ffffff;
+  }
+}
+

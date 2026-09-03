@@ -1,0 +1,46 @@
+<div class="dashboard-loader">
+  <div class="loader-content">
+
+    <div class="loader-brand">
+      <div class="loader-logo">B</div>
+      <div class="loader-brand-text">
+        <span>Budgy</span>
+        <small>Vos finances intelligentes</small>
+      </div>
+    </div>
+
+    <div class="loading-balance-card">
+      <div class="skeleton-line skeleton-label"></div>
+      <div class="skeleton-line skeleton-amount"></div>
+      <div class="loading-chart">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="loading-section">
+      <div class="loading-section-header">
+        <div>
+          <div class="skeleton-line title"></div>
+          <div class="skeleton-line subtitle"></div>
+        </div>
+      </div>
+
+      <div class="loading-budgets-grid">
+        <div class="loading-budget-card" *ngFor="let i of [1,2,3,4]">
+          <div class="skeleton-icon"></div>
+          <div class="loading-card-content">
+            <div class="skeleton-line budget-title"></div>
+            <div class="skeleton-line budget-text"></div>
+            <div class="skeleton-progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loader-status">
+      <div class="loader-spinner"><span></span></div>
+      <p>{{ message }}</p>
+    </div>
+
+  </div>
+</div>

@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonIcon, IonInput, IonButton } from '@ionic/angular';
+import { IonIcon, IonInput, IonButton } from '@ionic/angular';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, addOutline, closeOutline } from 'ionicons/icons';
@@ -12,13 +12,24 @@ import { BudgetsService } from '../../core/services/budgets';
 import { TransactionsService } from '../../core/services/transactions';
 import { ProgressBarComponent } from '../../shared/components/progress-bar/progress-bar';
 import { TransactionItemComponent } from '../../shared/components/transaction-item/transaction-item';
+import { PageLoaderComponent } from '../../shared/components/page-loader/page-loader';
 import { formatFCFA, percentSpent } from '../../core/utils/currency.utils';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-budget-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, IonContent, IonIcon, IonInput, IonButton, ProgressBarComponent, TransactionItemComponent, TranslatePipe],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonIcon,
+    IonInput,
+    IonButton,
+    ProgressBarComponent,
+    TransactionItemComponent,
+    PageLoaderComponent,
+    TranslatePipe
+  ],
   templateUrl: './budget-detail.page.html',
   styleUrls: ['./budget-detail.page.scss']
 })
@@ -27,6 +38,7 @@ export class BudgetDetailPage implements OnInit {
   transactions: Transaction[] = [];
   activeTab: 'transactions' | 'stats' = 'transactions';
   showForm = false;
+  loading = true;
 
   newDescription = '';
   newAmount: number | null = null;
@@ -47,18 +59,27 @@ export class BudgetDetailPage implements OnInit {
   }
 
   async load(id: string) {
-    this.budget = await this.budgetsSvc.getById(id);
-    this.transactions = await this.txSvc.getByBudget(id);
+    this.loading = true;
     this.cdr.detectChanges();
+    try {
+      this.budget = await this.budgetsSvc.getById(id);
+      this.transactions = await this.txSvc.getByBudget(id);
+    } catch (err) {
+      console.error('Erreur chargement budget detail:', err);
+    } finally {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
   }
 
   get percent(): number {
-    return percentSpent(this.budget.spent, this.budget.amount);
+    return this.budget ? percentSpent(this.budget.spent, this.budget.amount) : 0;
   }
 
   get remaining(): number {
-    return Math.max(0, this.budget.amount - this.budget.spent);
+    return this.budget ? Math.max(0, this.budget.amount - this.budget.spent) : 0;
   }
+
 
   formatFCFA = formatFCFA;
 

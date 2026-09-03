@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular';
+import { IonIcon } from '@ionic/angular';
 import {
   notificationsOutline,
   trendingUpOutline,
@@ -29,6 +29,7 @@ import { KpiCardComponent } from '../../shared/components/kpi-card/kpi-card';
 import { StatLineChartComponent } from '../../shared/components/stat-line-chart/stat-line-chart';
 import { StatDonutChartComponent } from '../../shared/components/stat-donut-chart/stat-donut-chart';
 import { ProgressBarComponent } from '../../shared/components/progress-bar/progress-bar';
+import { PageLoaderComponent } from '../../shared/components/page-loader/page-loader';
 import { formatFCFA, percentSpent } from '../../core/utils/currency.utils';
 import { formatShortDate } from '../../core/utils/date.utils';
 
@@ -40,13 +41,13 @@ const PWA_DISMISSED_KEY = 'budgy_pwa_install_dismissed';
   imports: [
     CommonModule,
     RouterLink,
-    IonContent,
     IonIcon,
     BudgetCardComponent,
     KpiCardComponent,
     StatLineChartComponent,
     StatDonutChartComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    PageLoaderComponent
   ],
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss']
@@ -86,7 +87,16 @@ export class DashboardPage implements OnInit {
   }
 
   async ngOnInit() {
+    await this.loadDashboardData();
+  }
+
+  async ionViewWillEnter() {
+    await this.loadDashboardData();
+  }
+
+  async loadDashboardData() {
     this.loading = true;
+    this.cdr.detectChanges();
     try {
       const [budgets, transactions, stats] = await Promise.all([
         this.budgetsSvc.getAll(),
@@ -112,6 +122,7 @@ export class DashboardPage implements OnInit {
       this.cdr.detectChanges();
     }
   }
+
 
   /** Capture l'événement natif du navigateur pour proposer l'installation PWA */
   @HostListener('window:beforeinstallprompt', ['$event'])

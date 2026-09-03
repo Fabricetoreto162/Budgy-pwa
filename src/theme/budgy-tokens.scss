@@ -36,7 +36,12 @@
   --cat-yellow: #EAB308;
 }
 
-html.ion-palette-dark {
+:root[data-theme="dark"],
+html.ion-palette-dark,
+html.dark,
+body.ion-palette-dark,
+body.dark,
+[data-theme="dark"] {
   --app-bg-shell: #0F1117;
   --app-surface: #171A23;
   --app-surface-muted: #1D2029;
@@ -52,4 +57,10 @@ html.ion-palette-dark {
 
   --app-tab-bar-bg: #171A23;
   --app-tab-inactive: #565B68;
+  --app-tab-active: var(--app-primary);
+
+  --ion-background-color: #0F1117;
+  --ion-background-color-rgb: 15, 17, 23;
+  --ion-text-color: #F2F3F5;
+  --ion-text-color-rgb: 242, 243, 245;
 }

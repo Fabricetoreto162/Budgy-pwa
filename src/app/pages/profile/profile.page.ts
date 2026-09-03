@@ -1,16 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IonContent, IonIcon, IonToggle } from '@ionic/angular';
+import { IonIcon, IonToggle } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   personOutline,
   chevronForwardOutline,
-  notificationsOutline,
   cashOutline,
   moonOutline,
-  helpCircleOutline,
-  informationCircleOutline,
   logOutOutline,
   pencilOutline
 } from 'ionicons/icons';
@@ -18,19 +15,20 @@ import { AuthService } from '../../core/services/auth';
 import { ProfileService } from '../../core/services/profile';
 import { ThemeService } from '../../core/services/theme';
 import { Profile } from '../../core/models/profile.model';
+import { PageLoaderComponent } from '../../shared/components/page-loader/page-loader';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon, IonToggle, TranslatePipe],
+  imports: [CommonModule, IonIcon, IonToggle, PageLoaderComponent, TranslatePipe],
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss']
 })
 export class ProfilePage implements OnInit {
   profile: Profile | null = null;
   darkMode = false;
-  notificationsEnabled = true;
+  loading = true;
 
   constructor(
     private auth: AuthService,
@@ -42,30 +40,49 @@ export class ProfilePage implements OnInit {
     addIcons({
       personOutline,
       chevronForwardOutline,
-      notificationsOutline,
       cashOutline,
       moonOutline,
-      helpCircleOutline,
-      informationCircleOutline,
       logOutOutline,
       pencilOutline
     });
   }
 
   async ngOnInit() {
-    this.profile = await this.profileSvc.getMine();
-    this.darkMode = this.theme.getTheme() === 'dark';
+    await this.loadProfile();
+  }
+
+  async ionViewWillEnter() {
+    await this.loadProfile();
+  }
+
+  async loadProfile() {
+    this.loading = true;
     this.cdr.detectChanges();
+    try {
+      this.profile = await this.profileSvc.getMine();
+      this.darkMode = this.theme.isDarkMode();
+    } catch (err) {
+      console.error('Erreur chargement profil:', err);
+    } finally {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
   }
 
-  async toggleDarkMode() {
-    this.darkMode = !this.darkMode;
-    this.theme.setTheme(this.darkMode ? 'dark' : 'light');
-    await this.profileSvc.update({ dark_mode: this.darkMode });
+  async onDarkModeChange(event: any) {
+    const isChecked = event?.detail ? !!event.detail.checked : !this.darkMode;
+    this.darkMode = isChecked;
+    this.theme.setTheme(isChecked ? 'dark' : 'light');
+    this.cdr.detectChanges();
+    try {
+      await this.profileSvc.update({ dark_mode: isChecked });
+    } catch (err) {
+      console.warn('Erreur mise à jour dark_mode sur profil:', err);
+    }
   }
 
-  toggleNotifications() {
-    this.notificationsEnabled = !this.notificationsEnabled;
+  async toggleDarkMode(event?: any) {
+    await this.onDarkModeChange(event);
   }
 
   async logout() {

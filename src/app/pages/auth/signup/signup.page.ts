@@ -1,8 +1,8 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { IonContent, AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../../core/services/auth';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -17,15 +17,16 @@ const COMMON_DOMAINS = [
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, IonContent, TranslatePipe],
+  imports: [CommonModule, FormsModule, RouterLink, TranslatePipe],
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss']
 })
-export class SignupPage {
+export class SignupPage implements OnInit {
   fullName = '';
   email = '';
   password = '';
   loading = false;
+  googleLoading = false;
   showPassword = false;
   errorMessage = '';
 
@@ -35,6 +36,13 @@ export class SignupPage {
     private alertCtrl: AlertController,
     private cdr: ChangeDetectorRef
   ) {}
+
+  async ngOnInit() {
+    await this.auth.waitUntilReady();
+    if (this.auth.isAuthenticated()) {
+      this.router.navigateByUrl('/tabs/dashboard', { replaceUrl: true });
+    }
+  }
 
   togglePassword() {
     this.showPassword = !this.showPassword;
@@ -57,6 +65,8 @@ export class SignupPage {
   }
 
   async onSubmit() {
+    if (this.loading || this.googleLoading) return;
+
     if (!this.fullName.trim() || !this.email || !this.password) {
       await this.showAlert('Champs manquants', 'Veuillez remplir tous les champs obligatoires.');
       return;
@@ -88,8 +98,16 @@ export class SignupPage {
     this.cdr.detectChanges();
 
     try {
-      await this.auth.signUp(cleanEmail, this.password, this.fullName.trim());
-      this.router.navigateByUrl('/tabs/dashboard');
+      const res = await this.auth.signUp(cleanEmail, this.password, this.fullName.trim());
+      if (res?.session) {
+        await this.router.navigateByUrl('/tabs/dashboard', { replaceUrl: true });
+      } else {
+        await this.showAlert(
+          'Compte créé !',
+          'Votre compte a bien été créé. Si un email de confirmation a été envoyé, veuillez vérifier votre boîte de réception pour valider votre inscription.'
+        );
+        this.router.navigateByUrl('/auth/login', { replaceUrl: true });
+      }
     } catch (e: any) {
       const status = e?.status ?? e?.originalError?.status;
       const msg = (e?.message ?? '').toLowerCase();
@@ -114,9 +132,17 @@ export class SignupPage {
   }
 
   async onGoogle() {
+    if (this.loading || this.googleLoading) return;
+
+    this.errorMessage = '';
+    this.googleLoading = true;
+    this.cdr.detectChanges();
+
     try {
       await this.auth.signInWithGoogle();
     } catch (e: any) {
+      this.googleLoading = false;
+      this.cdr.detectChanges();
       await this.showAlert('Erreur', e.message ?? 'Erreur de connexion Google');
     }
   }

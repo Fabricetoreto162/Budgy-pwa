@@ -9,6 +9,11 @@ export const routes: Routes = [
     canActivate: [rootGuard],
     children: []
   },
+  {
+    path: 'auth/callback',
+    canActivate: [rootGuard],
+    children: []
+  },
   { path: 'onboarding', loadComponent: () => import('./pages/onboarding/onboarding.page').then(m => m.OnboardingPage) },
   {
     path: 'auth/login',

@@ -1,5 +1,10 @@
-<ion-content class="ion-padding" *ngIf="stats">
-  <div class="stats-page">
+<div class="app-page-scroll">
+
+  <!-- FULL PAGE LOADING -->
+  <app-page-loader *ngIf="loading" message="Chargement de vos statistiques..."></app-page-loader>
+
+  <!-- STATS READY -->
+  <div class="stats-page ion-padding dashboard-ready" *ngIf="!loading && stats">
 
     <div class="header">
       <button class="back-btn" (click)="goBack()">
@@ -8,6 +13,7 @@
       <h2>{{ 'stats.title' | translate }}</h2>
       <span class="spacer"></span>
     </div>
+
 
     <div class="kpis">
       <app-kpi-card
@@ -64,6 +70,5 @@
         [categoryName]="t.budgets?.name">
       </app-transaction-item>
     </div>
-
   </div>
-</ion-content>
+</div>

@@ -1,13 +1,19 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .profile-page {
   max-width: 480px;
   margin: 0 auto;
-  padding-bottom: 20px;
+  padding-bottom: 96px;
 }
 
 h2 {
   font-size: 17px;
   font-weight: 800;
-  color: #182230;
+  color: var(--app-text, #182230);
   text-align: center;
   margin: 0 0 24px;
 }
@@ -27,14 +33,14 @@ h2 {
     margin-top: 12px;
     font-size: 16px;
     font-weight: 800;
-    color: #182230;
+    color: var(--app-text, #182230);
   }
 
   .email {
     display: block;
     margin-top: 2px;
     font-size: 12px;
-    color: #8a94a6;
+    color: var(--app-text-secondary, #8a94a6);
   }
 }
 
@@ -48,7 +54,7 @@ h2 {
     height: 84px;
     border-radius: 50%;
     object-fit: cover;
-    background: #eef1f5;
+    background: var(--app-surface-muted, #eef1f5);
   }
 }
 
@@ -59,8 +65,8 @@ h2 {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #f5a623;
-  border: 3px solid #f8f9fb;
+  background: var(--app-primary, #f5a623);
+  border: 3px solid var(--app-bg-shell, #f8f9fb);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,32 +79,32 @@ h2 {
 ========================= */
 
 .settings-group {
-  background: #ffffff;
+  background: var(--app-surface, #ffffff);
   border-radius: 18px;
   overflow: hidden;
   margin-bottom: 14px;
-  box-shadow: 0 8px 25px rgba(30, 41, 59, 0.05);
-  border: 1px solid rgba(226, 232, 240, 0.6);
+  box-shadow: var(--app-surface-shadow, 0 8px 25px rgba(30, 41, 59, 0.05));
+  border: 1px solid var(--app-border-soft, rgba(226, 232, 240, 0.6));
 
   .row {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 15px 16px;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    border-bottom: 1px solid var(--app-border-subtle, rgba(226, 232, 240, 0.6));
 
     &:last-child {
       border-bottom: none;
     }
 
     ion-icon:first-child {
-      color: #8a94a6;
+      color: var(--app-text-secondary, #8a94a6);
       font-size: 18px;
       flex-shrink: 0;
     }
 
     span {
-      color: #182230;
+      color: var(--app-text, #182230);
       font-size: 14px;
       font-weight: 500;
     }
@@ -108,13 +114,14 @@ h2 {
     }
 
     .value {
-      color: #8a94a6;
+      color: var(--app-primary, #f5a623);
       font-size: 13px;
+      font-weight: 600;
       margin-right: 4px;
     }
 
     .chevron {
-      color: #b7bdc9;
+      color: var(--app-text-muted, #b7bdc9);
       font-size: 16px;
       flex-shrink: 0;
     }
@@ -138,12 +145,12 @@ h2 {
   gap: 8px;
   padding: 15px;
   border-radius: 18px;
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  background: #ffffff;
-  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: var(--app-surface, #ffffff);
+  color: #ef4444;
   font-size: 14px;
   font-weight: 700;
-  box-shadow: 0 8px 25px rgba(30, 41, 59, 0.05);
+  box-shadow: var(--app-surface-shadow, 0 8px 25px rgba(30, 41, 59, 0.05));
 
   ion-icon {
     font-size: 18px;

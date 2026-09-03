@@ -1,5 +1,10 @@
-<ion-content class="ion-padding">
-  <div class="budgets-page">
+<div class="app-page-scroll">
+
+  <!-- FULL PAGE LOADING -->
+  <app-page-loader *ngIf="loading" message="Chargement de vos budgets..."></app-page-loader>
+
+  <!-- BUDGETS READY -->
+  <div class="budgets-page ion-padding dashboard-ready" *ngIf="!loading">
     <div class="header">
       <button class="back-btn" (click)="goBack()">
         <ion-icon name="chevron-back-outline"></ion-icon>
@@ -28,4 +33,4 @@
     (close)="closeModal()"
     (create)="onCreate($event)">
   </app-budget-form-modal>
-</ion-content>
+</div>
