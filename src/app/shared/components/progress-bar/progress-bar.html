@@ -1,0 +1,6 @@
+<div class="progress-row">
+  <div class="track">
+    <div class="fill" [style.width.%]="percent" [style.background]="color"></div>
+  </div>
+  <span class="percent-label" *ngIf="showLabel">{{ percent }}%</span>
+</div>

@@ -1,0 +1,10 @@
+<div class="transaction-item">
+  <div class="icon-circle" [style.background]="color + '22'">
+    <ion-icon [name]="icon" [style.color]="color"></ion-icon>
+  </div>
+  <div class="content">
+    <span class="description">{{ transaction.description }}</span>
+    <span class="meta">{{ categoryName }} • {{ formatDayTime(transaction.created_at) }}</span>
+  </div>
+  <span class="amount">-{{ formatFCFA(transaction.amount) }}</span>
+</div>

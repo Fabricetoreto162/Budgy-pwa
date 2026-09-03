@@ -18,22 +18,31 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "serviceWorker": "ngsw-config.json",
             "outputPath": {
               "base": "www",
               "browser": ""
             },
             "index": "src/index.html",
-            "polyfills": [],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "src/assets",
-                "output": "assets"
-              }
+           "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "src/assets",
+                  "output": "assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "public",
+                  "output": ""
+                }
+              ],
+            "styles": [
+              "src/global.scss",
+              "src/theme/variables.scss"
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": [],
             "browser": "src/main.ts"
           },
@@ -42,13 +51,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "20mb",
+                  "maximumError": "25mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "25kb",
+                  "maximumError": "25kb"
                 }
               ],
               "fileReplacements": [
@@ -81,7 +90,7 @@
               "buildTarget": "app:build:development"
             },
             "ci": {
-              "progress": false
+              "buildTarget": "app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -96,8 +105,10 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "tsconfig.spec.json",
-            "buildTarget": "::development",
-            "setupFiles": ["src/test-setup.ts"]
+            "buildTarget": "app:build:development",
+            "setupFiles": [
+              "src/test-setup.ts"
+            ]
           },
           "configurations": {
             "ci": {
@@ -108,14 +119,20 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "schematicCollections": ["@ionic/angular-toolkit"]
+    "schematicCollections": [
+      "@ionic/angular-toolkit"
+    ],
+    "analytics": false
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {

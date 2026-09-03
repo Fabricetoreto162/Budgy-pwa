@@ -1,0 +1,47 @@
+<aside class="sidebar">
+
+  <div class="logo">
+    <div class="logo-mark"><span>B</span></div>
+    <span class="logo-text">Budgy</span>
+  </div>
+
+  <nav class="sidebar-menu">
+    <a routerLink="/tabs/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <ion-icon name="home-outline"></ion-icon>
+      <span>Tableau de bord</span>
+    </a>
+
+    <a routerLink="/tabs/budgets" routerLinkActive="active">
+      <ion-icon name="wallet-outline"></ion-icon>
+      <span>Budgets</span>
+    </a>
+
+    <a routerLink="/tabs/transactions" routerLinkActive="active">
+      <ion-icon name="receipt-outline"></ion-icon>
+      <span>Transactions</span>
+    </a>
+
+    <a routerLink="/tabs/stats" routerLinkActive="active">
+      <ion-icon name="stats-chart-outline"></ion-icon>
+      <span>Statistiques</span>
+    </a>
+
+    <a routerLink="/tabs/profile" routerLinkActive="active">
+      <ion-icon name="settings-outline"></ion-icon>
+      <span>Paramètres</span>
+    </a>
+  </nav>
+
+  <button class="logout-link" type="button" (click)="logout()">
+    <ion-icon name="log-out-outline"></ion-icon>
+    <span>Se déconnecter</span>
+  </button>
+
+  <div class="premium-card">
+    <div class="premium-icon"><ion-icon name="diamond-outline"></ion-icon></div>
+    <h4>Passez à Budgy<br>Premium</h4>
+    <p>Analyses avancées,<br>export des données...</p>
+    <button type="button">Découvrir</button>
+  </div>
+
+</aside>

@@ -1,0 +1,1 @@
+export type { CategoryOption } from '../constants/categories.constants';

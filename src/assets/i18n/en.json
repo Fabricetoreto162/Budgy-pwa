@@ -1,0 +1,69 @@
+{
+    "common": { "cancel": "Cancel", "save": "Save", "delete": "Delete" },
+    "onboarding": {
+      "title": "Take control of your finances",
+      "subtitle": "Manage your income, track your spending and reach your goals more easily.",
+      "signup": "Sign up",
+      "login": "Log in",
+      "skip": "Skip"
+    },
+    "auth": {
+      "welcome": "Welcome",
+      "login_subtitle": "Sign in to your account",
+      "email": "Email",
+      "password": "Password",
+      "forgot_password": "Forgot password?",
+      "or_continue_with": "or continue with",
+      "no_account": "Don't have an account?",
+      "signup_link": "Sign up"
+    },
+    "dashboard": {
+      "greeting": "Hello {{name}} 👋",
+      "subtitle": "Here's an overview of your finances",
+      "total_balance": "Total balance",
+      "my_budgets": "My budgets",
+      "see_all": "See all"
+    },
+    "budgets": {
+      "title": "My Budgets",
+      "new_budget": "New budget",
+      "budget_name": "Budget name",
+      "amount": "Amount (FCFA)",
+      "choose_icon": "Choose an icon",
+      "add_budget": "Add budget",
+      "remaining": "{{amount}} left"
+    },
+    "budget_detail": {
+      "transactions_tab": "Transactions",
+      "stats_tab": "Statistics",
+      "add_expense": "Add expense"
+    },
+    "transactions": {
+      "title": "Transactions",
+      "last_30_days": "Last 30 days"
+    },
+    "stats": {
+      "title": "Statistics",
+      "total_spent": "Total spent",
+      "transactions_count": "Transactions",
+      "by_category": "Spending by category",
+      "budgets_reached": "Budgets reached",
+      "recent_transactions": "Recent transactions"
+    },
+    "profile": {
+      "title": "Profile",
+      "my_account": "My account",
+      "notifications": "Notifications",
+      "currency": "Currency",
+      "dark_mode": "Dark mode",
+      "help_support": "Help & Support",
+      "about": "About Budgy",
+      "logout": "Log out"
+    },
+    "tabs": {
+      "dashboard": "Home",
+      "budgets": "Budgets",
+      "stats": "Stats",
+      "profile": "Profile"
+    }
+  }

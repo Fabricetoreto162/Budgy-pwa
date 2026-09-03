@@ -1,0 +1,16 @@
+<div class="donut-layout">
+  <div class="donut-canvas-wrap">
+    <canvas baseChart [data]="chartData" [options]="chartOptions" type="doughnut"></canvas>
+    <div class="donut-center">
+      <span class="value">{{ formatFCFA(total) }}</span>
+    </div>
+  </div>
+
+  <ul class="donut-legend">
+    <li *ngFor="let d of data">
+      <span class="dot" [style.background]="d.color"></span>
+      <span class="label">{{ d.label }}</span>
+      <span class="percent">{{ percentOf(d.value) }}%</span>
+    </li>
+  </ul>
+</div>

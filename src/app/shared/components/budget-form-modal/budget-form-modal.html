@@ -1,0 +1,27 @@
+<div class="overlay" *ngIf="open" (click)="onClose()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <span class="spacer"></span>
+      <h3>{{ 'budgets.new_budget' | translate }}</h3>
+      <button class="close-btn" (click)="onClose()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </div>
+
+    <label>{{ 'budgets.budget_name' | translate }}</label>
+    <ion-input placeholder="Vacances" [(ngModel)]="name"></ion-input>
+
+    <label>{{ 'budgets.amount' | translate }}</label>
+    <ion-input type="number" placeholder="300 000" [(ngModel)]="amount"></ion-input>
+
+    <label>{{ 'budgets.choose_icon' | translate }}</label>
+    <app-category-icon-picker
+      [selectedId]="selectedCategory?.id ?? null"
+      (select)="onSelectCategory($event)">
+    </app-category-icon-picker>
+
+    <ion-button expand="block" color="primary" class="submit-btn" (click)="onSubmit()">
+      {{ 'budgets.add_budget' | translate }}
+    </ion-button>
+  </div>
+</div>

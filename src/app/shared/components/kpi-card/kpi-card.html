@@ -1,0 +1,12 @@
+<div class="kpi-card" [class.dark]="dark">
+  <div class="kpi-top">
+    <span class="label">{{ label }}</span>
+  </div>
+  <div class="kpi-bottom">
+    <div class="value-block">
+      <span class="value">{{ value }}</span>
+      <span class="sub-label" *ngIf="subLabel">{{ subLabel }}</span>
+    </div>
+    <span class="trend" *ngIf="trend" [class.negative]="!trendPositive">{{ trend }}</span>
+  </div>
+</div>

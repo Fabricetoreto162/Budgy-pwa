@@ -1,0 +1,49 @@
+<ion-content class="ion-padding">
+  <div class="transactions-page">
+
+    <div class="header">
+      <h2>{{ 'transactions.title' | translate }}</h2>
+    </div>
+
+    <div class="filter-bar">
+      <div class="filter-pill-wrap">
+        <button class="filter-pill" (click)="toggleDropdown()">
+          {{ selectedPeriod.label }}
+          <ion-icon name="chevron-down-outline" [class.rotated]="dropdownOpen"></ion-icon>
+        </button>
+
+        <div class="dropdown" *ngIf="dropdownOpen">
+          <button
+            *ngFor="let opt of periodOptions"
+            class="dropdown-item"
+            [class.active]="opt.days === selectedPeriod.days"
+            (click)="selectPeriod(opt)">
+            <span>{{ opt.label }}</span>
+            <ion-icon *ngIf="opt.days === selectedPeriod.days" name="checkmark-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <button class="filter-icon-btn" (click)="onFilterIconClick()">
+        <ion-icon name="filter-outline"></ion-icon>
+      </button>
+    </div>
+
+    <div class="transactions-list" *ngIf="transactions.length > 0">
+      <app-transaction-item
+        *ngFor="let t of transactions"
+        [transaction]="t"
+        [icon]="t.budgets?.icon"
+        [color]="t.budgets?.color"
+        [categoryName]="t.budgets?.name">
+      </app-transaction-item>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && transactions.length === 0">
+      <div class="empty-icon"><ion-icon name="receipt-outline"></ion-icon></div>
+      <h3>Aucune transaction</h3>
+      <p>Vos dépenses sur cette période apparaîtront ici.</p>
+    </div>
+
+  </div>
+</ion-content>

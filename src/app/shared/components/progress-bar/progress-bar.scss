@@ -1,0 +1,26 @@
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.track {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: #eef1f5;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.percent-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8a94a6;
+  white-space: nowrap;
+}

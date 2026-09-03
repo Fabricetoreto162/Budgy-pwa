@@ -1,0 +1,220 @@
+:host {
+  display: block !important;
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100vh;
+
+  box-sizing: border-box;
+
+  padding: 24px 16px;
+
+  background: #0a2540;
+
+  color: #ffffff;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 0 8px;
+
+  margin-bottom: 36px;
+}
+
+.logo-mark {
+  color: #f5a623;
+
+  font-size: 26px;
+  font-weight: 900;
+  font-style: italic;
+
+  line-height: 1;
+}
+
+.logo-text {
+  color: #ffffff;
+
+  font-size: 21px;
+  font-weight: 800;
+
+  letter-spacing: -0.5px;
+}
+
+/* =========================
+   MENU
+========================= */
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.sidebar-menu a {
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 14px;
+
+  border-radius: 12px;
+
+  color: rgba(255, 255, 255, 0.62);
+
+  font-size: 13px;
+  font-weight: 500;
+
+  text-decoration: none;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.sidebar-menu a ion-icon {
+  font-size: 19px;
+}
+
+.sidebar-menu a:hover {
+  background: rgba(255, 255, 255, 0.06);
+
+  color: #ffffff;
+}
+
+.sidebar-menu a.active {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.13),
+      rgba(255, 255, 255, 0.05)
+    );
+
+  color: #ffffff;
+
+  font-weight: 600;
+}
+
+/* =========================
+   PREMIUM CARD
+========================= */
+
+.premium-card {
+  margin-top: auto;
+
+  padding: 22px 16px;
+
+  border-radius: 18px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.03)
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.premium-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 10px;
+
+  color: #f5a623;
+
+  font-size: 25px;
+}
+
+.premium-card h4 {
+  margin: 0 0 8px;
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  line-height: 1.4;
+}
+
+.premium-card p {
+  margin: 0 0 16px;
+
+  color: rgba(255, 255, 255, 0.55);
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.premium-card button {
+  width: 100%;
+
+  height: 40px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #f5a623;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 20px rgba(245, 166, 35, 0.2);
+}
+
+
+
+
+
+.logout-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 46px;
+  padding: 0 14px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: rgba(239, 68, 68, 0.85);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+
+  ion-icon {
+    font-size: 19px;
+  }
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #EF4444;
+  }
+}

@@ -1,0 +1,69 @@
+<ion-content class="ion-padding" *ngIf="stats">
+  <div class="stats-page">
+
+    <div class="header">
+      <button class="back-btn" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
+      <h2>{{ 'stats.title' | translate }}</h2>
+      <span class="spacer"></span>
+    </div>
+
+    <div class="kpis">
+      <app-kpi-card
+        [label]="'stats.total_spent' | translate"
+        [value]="formatFCFA(stats.totalSpent)"
+        trend="+8,2%"
+        [trendPositive]="false">
+      </app-kpi-card>
+
+      <app-kpi-card
+        [label]="'stats.transactions_count' | translate"
+        [value]="stats.transactionCount.toString()"
+        subLabel="ce mois"
+        trend="+12,5%">
+      </app-kpi-card>
+    </div>
+
+    <div class="card">
+      <h3>{{ 'stats.by_category' | translate }}</h3>
+
+      <div class="custom-bar-chart">
+        <div class="bar-col" *ngFor="let c of categoryPercents">
+          <span class="bar-percent">{{ c.percent }}%</span>
+          <div class="bar-track">
+            <div class="bar-fill" [style.height.%]="c.percent" [style.background]="c.color"></div>
+          </div>
+          <span class="bar-label">{{ c.label }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card budgets-reached-card">
+      <div class="row-top">
+        <h3>{{ 'stats.budgets_reached' | translate }}</h3>
+        <span class="ratio">{{ stats.budgetsReached }}/{{ stats.budgetsTotal }}</span>
+      </div>
+      <app-progress-bar [percent]="budgetsProgress" color="#f5a623" [showLabel]="true"></app-progress-bar>
+    </div>
+
+    <div class="section-header">
+      <h3>{{ 'stats.recent_transactions' | translate }}</h3>
+      <a routerLink="/tabs/transactions">
+        Voir tout
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </a>
+    </div>
+
+    <div class="transactions-list">
+      <app-transaction-item
+        *ngFor="let t of recentTransactions"
+        [transaction]="t"
+        [icon]="t.budgets?.icon"
+        [color]="t.budgets?.color"
+        [categoryName]="t.budgets?.name">
+      </app-transaction-item>
+    </div>
+
+  </div>
+</ion-content>

@@ -1,0 +1,196 @@
+.stats-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 17px;
+    font-weight: 800;
+    color: #182230;
+    margin: 0;
+    flex: 1;
+    text-align: center;
+  }
+
+  .back-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(30, 41, 59, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #182230;
+  }
+
+  .spacer {
+    width: 38px;
+  }
+}
+
+/* =========================
+   KPI ROW
+========================= */
+
+.kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* =========================
+   CARDS COMMUNES
+========================= */
+
+.card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 25px rgba(30, 41, 59, 0.05);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+
+  h3 {
+    margin: 0 0 16px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #182230;
+  }
+}
+
+/* =========================
+   BAR CHART CUSTOM (CSS pur)
+========================= */
+
+.custom-bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  height: 140px;
+}
+
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.bar-percent {
+  font-size: 11px;
+  font-weight: 700;
+  color: #182230;
+  margin-bottom: 6px;
+}
+
+.bar-track {
+  flex: 1;
+  width: 100%;
+  max-width: 28px;
+  display: flex;
+  align-items: flex-end;
+  background: #f3f4f6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  transition: height 0.4s ease;
+  min-height: 4px;
+}
+
+.bar-label {
+  margin-top: 8px;
+  font-size: 10px;
+  color: #8a94a6;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* =========================
+   BUDGETS ATTEINTS
+========================= */
+
+.budgets-reached-card {
+  .row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    h3 { margin: 0; }
+  }
+
+  .ratio {
+    font-size: 16px;
+    font-weight: 800;
+    color: #182230;
+  }
+}
+
+/* =========================
+   SECTION HEADER
+========================= */
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+    color: #182230;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #f5a623;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+
+    ion-icon { font-size: 14px; }
+  }
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 992px) {
+  .stats-page {
+    max-width: 760px;
+  }
+
+  .header {
+    h2 { font-size: 22px; }
+  }
+
+  .custom-bar-chart {
+    height: 180px;
+  }
+}

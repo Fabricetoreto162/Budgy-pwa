@@ -1,0 +1,49 @@
+<ion-content [fullscreen]="true" class="onboarding-content">
+  <div class="onboarding-container">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="brand-logo">
+        <div class="logo-badge">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+            <path d="M6 4h7a4.5 4.5 0 0 1 4.5 4.5 4.5 4.5 0 0 1-2.5 4 4.5 4.5 0 0 1 3.5 4.5A4.5 4.5 0 0 1 14 21.5H6V4z" fill="#FFFFFF"/>
+            <path d="M9 7.5h4a2 2 0 1 1 0 4H9v-4zm0 6.5h4.5a2 2 0 1 1 0 4H9V14z" fill="#F5A623"/>
+          </svg>
+        </div>
+        <span class="brand-name">Budgy</span>
+      </div>
+
+      <button type="button" class="skip-btn" (click)="skipOnboarding()">
+        {{ 'onboarding.skip' | translate }}
+      </button>
+    </header>
+
+    <!-- Main Hero Body -->
+    <main class="hero-body">
+      <div class="illustration-wrapper">
+        <img src="assets/onboarding-hero.svg" alt="Budgy Finance" class="hero-illustration" />
+      </div>
+
+      <div class="text-content">
+        <h1 class="title">{{ 'onboarding.title' | translate }}</h1>
+        <p class="subtitle">{{ 'onboarding.subtitle' | translate }}</p>
+      </div>
+
+      <!-- Carousel Pagination Dots -->
+      <div class="dots-indicator">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </main>
+
+    <!-- Footer Actions -->
+    <footer class="footer-actions">
+      <button type="button" class="btn-primary" (click)="goToSignup()">
+        {{ 'onboarding.signup' | translate }}
+      </button>
+      <button type="button" class="btn-secondary" (click)="goToLogin()">
+        {{ 'onboarding.login' | translate }}
+      </button>
+    </footer>
+  </div>
+</ion-content>

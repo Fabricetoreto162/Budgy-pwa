@@ -1,0 +1,31 @@
+<ion-content class="ion-padding">
+  <div class="budgets-page">
+    <div class="header">
+      <button class="back-btn" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
+      <h2>{{ 'budgets.title' | translate }}</h2>
+      <button class="add-btn" (click)="openCreate()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </div>
+
+    <div class="budgets-list" *ngIf="budgets.length > 0">
+      <a *ngFor="let b of budgets" [routerLink]="['/tabs/budgets', b.id]">
+        <app-budget-card [budget]="b" layout="list"></app-budget-card>
+      </a>
+    </div>
+
+    <div class="empty-state" *ngIf="budgets.length === 0">
+      <div class="empty-icon"><ion-icon name="wallet-outline"></ion-icon></div>
+      <h3>Aucun budget</h3>
+      <p>Créez votre premier budget pour commencer à suivre vos dépenses.</p>
+    </div>
+  </div>
+
+  <app-budget-form-modal
+    [open]="modalOpen"
+    (close)="closeModal()"
+    (create)="onCreate($event)">
+  </app-budget-form-modal>
+</ion-content>

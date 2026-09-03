@@ -1,0 +1,69 @@
+{
+    "common": { "cancel": "Annuler", "save": "Enregistrer", "delete": "Supprimer" },
+    "onboarding": {
+      "title": "Prenez le contrôle de vos finances",
+      "subtitle": "Gérez vos revenus, maîtrisez vos dépenses et atteignez vos objectifs plus facilement.",
+      "signup": "S'inscrire",
+      "login": "Se connecter",
+      "skip": "Passer"
+    },
+    "auth": {
+      "welcome": "Bienvenue",
+      "login_subtitle": "Connectez-vous à votre compte",
+      "email": "Email",
+      "password": "Mot de passe",
+      "forgot_password": "Mot de passe oublié ?",
+      "or_continue_with": "ou continuer avec",
+      "no_account": "Pas encore de compte ?",
+      "signup_link": "S'inscrire"
+    },
+    "dashboard": {
+      "greeting": "Bonjour {{name}} 👋",
+      "subtitle": "Voici un aperçu de vos finances",
+      "total_balance": "Solde total",
+      "my_budgets": "Mes budgets",
+      "see_all": "Voir tout"
+    },
+    "budgets": {
+      "title": "Mes Budgets",
+      "new_budget": "Nouveau budget",
+      "budget_name": "Nom du budget",
+      "amount": "Montant (FCFA)",
+      "choose_icon": "Choisir une icône",
+      "add_budget": "Ajouter le budget",
+      "remaining": "Il vous reste {{amount}}"
+    },
+    "budget_detail": {
+      "transactions_tab": "Transactions",
+      "stats_tab": "Statistiques",
+      "add_expense": "Ajouter une dépense"
+    },
+    "transactions": {
+      "title": "Transactions",
+      "last_30_days": "Derniers 30 jours"
+    },
+    "stats": {
+      "title": "Statistiques",
+      "total_spent": "Total dépenses",
+      "transactions_count": "Transactions",
+      "by_category": "Dépenses par catégorie",
+      "budgets_reached": "Budgets atteints",
+      "recent_transactions": "Dernières transactions"
+    },
+    "profile": {
+      "title": "Profil",
+      "my_account": "Mon compte",
+      "notifications": "Notifications",
+      "currency": "Devise",
+      "dark_mode": "Mode sombre",
+      "help_support": "Aide & Support",
+      "about": "À propos de Budgy",
+      "logout": "Se déconnecter"
+    },
+    "tabs": {
+      "dashboard": "Accueil",
+      "budgets": "Budgets",
+      "stats": "Stats",
+      "profile": "Profil"
+    }
+  }

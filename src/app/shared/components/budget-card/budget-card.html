@@ -1,0 +1,28 @@
+<!-- GRID : card compacte verticale (dashboard mobile) -->
+<div class="budget-card grid" *ngIf="layout !== 'list'">
+  <div class="card-top">
+    <div class="icon-circle" [style.background]="budget.color + '22'">
+      <ion-icon [name]="budget.icon" [style.color]="budget.color"></ion-icon>
+    </div>
+    <span class="name">{{ budget.name }}</span>
+  </div>
+
+  <span class="amount">{{ formatFCFA(budget.spent) }} / {{ formatFCFA(budget.amount) }}</span>
+
+  <app-progress-bar [percent]="percent" [color]="budget.color"></app-progress-bar>
+</div>
+
+<!-- LIST : ligne horizontale (page "Mes Budgets") -->
+<div class="budget-card list" *ngIf="layout === 'list'">
+  <div class="icon-circle" [style.background]="budget.color + '22'">
+    <ion-icon [name]="budget.icon" [style.color]="budget.color"></ion-icon>
+  </div>
+
+  <div class="info">
+    <div class="row-top">
+      <span class="name">{{ budget.name }}</span>
+      <span class="amount">{{ formatFCFA(budget.spent) }} / {{ formatFCFA(budget.amount) }}</span>
+    </div>
+    <app-progress-bar [percent]="percent" [color]="budget.color" [showLabel]="true"></app-progress-bar>
+  </div>
+</div>

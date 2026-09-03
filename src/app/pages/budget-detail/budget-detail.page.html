@@ -1,0 +1,63 @@
+<ion-content [fullscreen]="true" *ngIf="budget">
+  <div class="budget-detail-page">
+
+    <button class="back-btn" (click)="goBack()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </button>
+
+    <div class="hero" [style.background]="budget.color + '18'">
+      <div class="icon-circle" [style.background]="budget.color + '30'">
+        <ion-icon [name]="budget.icon" [style.color]="budget.color"></ion-icon>
+      </div>
+      <h2>{{ budget.name }}</h2>
+      <p class="amount">{{ formatFCFA(budget.spent) }} / {{ formatFCFA(budget.amount) }}</p>
+      <app-progress-bar [percent]="percent" [color]="budget.color" [showLabel]="true"></app-progress-bar>
+      <p class="remaining">Il vous reste {{ formatFCFA(remaining) }}</p>
+    </div>
+
+    <div class="tabs-switch">
+      <button [class.active]="activeTab === 'transactions'" (click)="activeTab = 'transactions'">
+        {{ 'budget_detail.transactions_tab' | translate }}
+      </button>
+      <button [class.active]="activeTab === 'stats'" (click)="activeTab = 'stats'">
+        {{ 'budget_detail.stats_tab' | translate }}
+      </button>
+    </div>
+
+    <div class="transactions-list" *ngIf="activeTab === 'transactions'">
+      <app-transaction-item
+        *ngFor="let t of transactions"
+        [transaction]="t"
+        [icon]="budget.icon"
+        [color]="budget.color">
+      </app-transaction-item>
+
+      <div class="empty-tx" *ngIf="transactions.length === 0">
+        <p>Aucune dépense pour l'instant</p>
+      </div>
+    </div>
+
+    <div class="stats-panel" *ngIf="activeTab === 'stats'">
+      <p class="placeholder">Statistiques de ce budget bientôt disponibles.</p>
+    </div>
+
+    <button class="delete-btn" (click)="removeBudget()">supprimer le budget</button>
+
+  </div>
+
+  <div class="add-expense-fab" *ngIf="activeTab === 'transactions'">
+    <button class="fab-toggle" (click)="showForm = !showForm">
+      <ion-icon [name]="showForm ? 'close-outline' : 'add-outline'"></ion-icon>
+      {{ showForm ? 'Annuler' : 'Ajouter une dépense' }}
+    </button>
+
+    <div class="fab-form" *ngIf="showForm">
+      <ion-input placeholder="Description" [(ngModel)]="newDescription"></ion-input>
+      <ion-input type="number" placeholder="Montant" [(ngModel)]="newAmount"></ion-input>
+      <ion-button expand="block" color="primary" (click)="addExpense()">
+        {{ 'budget_detail.add_expense' | translate }}
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>

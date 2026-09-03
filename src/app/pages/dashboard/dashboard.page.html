@@ -1,0 +1,266 @@
+<ion-content [fullscreen]="true">
+
+  <!-- =========================
+       FULL PAGE LOADING
+  ========================== -->
+  <div class="dashboard-loader" *ngIf="loading">
+
+    <div class="loader-content">
+
+      <div class="loader-brand">
+        <div class="loader-logo">B</div>
+        <div class="loader-brand-text">
+          <span>Budgy</span>
+          <small>Vos finances intelligentes</small>
+        </div>
+      </div>
+
+      <div class="loading-balance-card">
+        <div class="skeleton-line skeleton-label"></div>
+        <div class="skeleton-line skeleton-amount"></div>
+        <div class="loading-chart">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="loading-section">
+        <div class="loading-section-header">
+          <div>
+            <div class="skeleton-line title"></div>
+            <div class="skeleton-line subtitle"></div>
+          </div>
+        </div>
+
+        <div class="loading-budgets-grid">
+          <div class="loading-budget-card" *ngFor="let i of [1,2,3,4]">
+            <div class="skeleton-icon"></div>
+            <div class="loading-card-content">
+              <div class="skeleton-line budget-title"></div>
+              <div class="skeleton-line budget-text"></div>
+              <div class="skeleton-progress"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="loader-status">
+        <div class="loader-spinner"><span></span></div>
+        <p>Chargement de vos finances...</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- =========================
+       REAL DASHBOARD
+  ========================== -->
+  <div class="dashboard dashboard-ready" *ngIf="!loading">
+
+    <!-- =========================
+         MOBILE DASHBOARD
+         Masqué à partir de 992px (desktop-extra prend le relais avec son propre header)
+    ========================== -->
+    <div class="mobile-dashboard">
+
+      <header class="top-header">
+        <div class="brand">
+          <span class="brand-logo">B</span>
+          <span class="brand-name">Budgy</span>
+        </div>
+
+        <div class="top-header-actions">
+          <button class="notification-btn" type="button">
+            <ion-icon name="notifications-outline"></ion-icon>
+            <span class="notification-dot"></span>
+          </button>
+          <button class="logout-btn-mobile" type="button" (click)="logout()">
+            <ion-icon name="log-out-outline"></ion-icon>
+          </button>
+        </div>
+      </header>
+
+      <section class="welcome-section">
+        <h2>Bonjour {{ firstName }} 👋</h2>
+        <p>Voici un aperçu de vos finances</p>
+      </section>
+
+      <section class="balance-card">
+        <div class="balance-top">
+          <div>
+            <span class="balance-label">Solde total</span>
+            <h1>{{ formatFCFA(totalBalance) }}</h1>
+          </div>
+          <div class="balance-growth">
+            <ion-icon name="trending-up-outline"></ion-icon>
+            +13,5%
+          </div>
+        </div>
+
+        <div class="balance-chart">
+          <svg viewBox="0 0 320 80" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F5A623" stop-opacity="0.35"></stop>
+                <stop offset="100%" stop-color="#F5A623" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+            <path class="chart-area" d="M0,65 C20,45 35,62 55,55 C75,48 85,58 105,38 C125,15 140,10 158,32 C175,55 190,52 210,36 C230,20 245,38 265,24 C285,8 300,15 320,5 L320,80 L0,80 Z"></path>
+            <path class="chart-line" d="M0,65 C20,45 35,62 55,55 C75,48 85,58 105,38 C125,15 140,10 158,32 C175,55 190,52 210,36 C230,20 245,38 265,24 C285,8 300,15 320,5"></path>
+          </svg>
+        </div>
+      </section>
+
+      <section class="section-header">
+        <div>
+          <h3>Mes budgets</h3>
+          <p>Suivez vos dépenses</p>
+        </div>
+        <a routerLink="/tabs/budgets">
+          Voir tout
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </a>
+      </section>
+
+      <div class="budgets-grid" *ngIf="budgets.length > 0">
+        <app-budget-card *ngFor="let b of budgets.slice(0, 4)" [budget]="b"></app-budget-card>
+      </div>
+
+      <div class="empty-state" *ngIf="budgets.length === 0">
+        <div class="empty-icon"><ion-icon name="wallet-outline"></ion-icon></div>
+        <h3>Aucun budget</h3>
+        <p>Commencez à organiser vos finances en créant votre premier budget.</p>
+        <a routerLink="/tabs/budgets" class="create-budget-btn">
+          <ion-icon name="add-outline"></ion-icon>
+          Créer un budget
+        </a>
+      </div>
+
+    </div>
+    <!-- FIN mobile-dashboard -->
+
+    <!-- =========================
+         DESKTOP EXTRA (KPIs + charts + colonnes)
+         Toujours visible - responsive (1 colonne mobile -> 4 colonnes desktop)
+    ========================== -->
+    <div class="desktop-extra" *ngIf="stats">
+
+      <div class="desktop-header">
+        <div>
+          <h1>Tableau de bord</h1>
+          <p>Vue d'ensemble de vos finances</p>
+        </div>
+        <div class="desktop-header-actions">
+          <button class="bell-btn" type="button">
+            <ion-icon name="notifications-outline"></ion-icon>
+          </button>
+          <div class="user-chip">
+            <img src="assets/icon/utilisateur.png" alt="avatar" />
+            <span>{{ firstName }}</span>
+            <ion-icon name="chevron-down-outline"></ion-icon>
+          </div>
+          <button class="logout-btn" type="button" (click)="logout()" title="Se déconnecter">
+            <ion-icon name="log-out-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <app-kpi-card
+          [dark]="true"
+          label="Solde total"
+          [value]="formatFCFA(totalBalance)"
+          trend="+12,5%">
+        </app-kpi-card>
+
+        <app-kpi-card
+          label="Total dépenses"
+          [value]="formatFCFA(stats.totalSpent)"
+          trend="+8,2%"
+          [trendPositive]="false">
+        </app-kpi-card>
+
+        <app-kpi-card
+          label="Budgets actifs"
+          [value]="stats.budgetsTotal.toString()"
+          [subLabel]="'sur ' + stats.budgetsTotal"
+          trend="+16,7%">
+        </app-kpi-card>
+
+        <app-kpi-card
+          label="Transactions"
+          [value]="stats.transactionCount.toString()"
+          subLabel="ce mois"
+          trend="+12,5%">
+        </app-kpi-card>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-col-main">
+          <h3>Évolution des dépenses</h3>
+          <app-stat-line-chart [data]="stats.monthlyEvolution"></app-stat-line-chart>
+        </div>
+        <div class="chart-col-side">
+          <h3>Dépenses par catégorie</h3>
+          <app-stat-donut-chart [data]="stats.byCategory"></app-stat-donut-chart>
+        </div>
+      </div>
+
+      <div class="bottom-columns">
+        <div class="column budgets-column">
+          <div class="column-header">
+            <h3>Budgets récents</h3>
+          </div>
+          <div class="mini-budget-row" *ngFor="let b of budgets.slice(0, 3)">
+            <div class="icon-circle" [style.background]="b.color + '22'">
+              <ion-icon [name]="b.icon" [style.color]="b.color"></ion-icon>
+            </div>
+            <div class="content">
+              <div class="row-top">
+                <span class="name">{{ b.name }}</span>
+                <span class="amount">{{ formatFCFA(b.amount) }}</span>
+              </div>
+              <app-progress-bar [percent]="percentSpent(b.spent, b.amount)" [color]="b.color" [showLabel]="true"></app-progress-bar>
+            </div>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="column-header">
+            <h3>Dernières transactions</h3>
+            <a routerLink="/tabs/transactions">Voir tout</a>
+          </div>
+          <div class="mini-tx-row" *ngFor="let t of recentTransactions">
+            <div class="icon-circle" [style.background]="(t.budgets?.color ?? '#F5A623') + '22'">
+              <ion-icon [name]="t.budgets?.icon ?? 'pricetag-outline'" [style.color]="t.budgets?.color ?? '#F5A623'"></ion-icon>
+            </div>
+            <div class="content">
+              <span class="name">{{ t.description }}</span>
+            </div>
+            <span class="amount">-{{ formatFCFA(t.amount) }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- =========================
+       PWA INSTALL CARD
+  ========================== -->
+  <div class="pwa-install-card" *ngIf="showInstallCard">
+    <div class="pwa-icon">
+      <ion-icon name="download-outline"></ion-icon>
+    </div>
+    <div class="pwa-content">
+      <strong>Installer Budgy</strong>
+      <p>Accédez à l'app directement depuis votre écran d'accueil</p>
+    </div>
+    <button class="pwa-install-btn" (click)="installPwa()">Installer</button>
+    <button class="pwa-close-btn" (click)="dismissInstallCard()">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+  </div>
+
+</ion-content>
